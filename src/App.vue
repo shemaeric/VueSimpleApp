@@ -1,53 +1,18 @@
 <template>
   <div id="app">
     <Header />
-    <AddTodo v-on:add-todo="addTodo"/>
-    <Todos v-bind:todos="todos" v-on:del-todo="deleteTodo" />
+    <router-view/>
   </div>
 </template>
 
 <script>
-import axios from 'axios';
-import Todos from "./components/Todos.vue";
-import Header from "./components/layouts/Header";
-import AddTodo from "./components/AddTodo";
-
+import Header from './components/layouts/Header';
 export default {
-  name: "app",
+  name: 'app',
   components: {
-    Todos,
-    Header,
-    AddTodo,
-  },
-  methods: {
-    deleteTodo(id) {
-
-      axios.delete(`https://jsonplaceholder.typicode.com/todos/${id}`)
-            .then(res => this.todos = this.todos.filter(todo => todo.id !== id))
-            .catch(error => console.log(error))
-    },
-    addTodo(newTodo) {
-
-      const { title, completed } = newTodo
-      axios.post('https://jsonplaceholder.typicode.com/todos', {
-        title,
-        completed
-      })
-      .then(res => this.todos = [...this.todos, res.data])
-      .catch(error => console.log(error))
-    }
-  },
-  created() {
-    axios.get('https://jsonplaceholder.typicode.com/todos?_limit=8')
-        .then(res => this.todos = res.data)
-        .catch(error => console.log(error))
-  },
-  data() {
-    return {
-      todos: []
-    };
+    Header
   }
-};
+}
 </script>
 
 <style>
